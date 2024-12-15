@@ -1,4 +1,3 @@
-// frontend/src/components/Visualization/GraphComponent.js
 import React, { useState, useEffect } from 'react';
 import { 
   BarChart, 
@@ -18,8 +17,6 @@ function GraphComponent({ data, onDownload }) {
   const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
-    // TODO: Process data from backend conversion
-    // Placeholder mock data
     const mockData = [
       { name: 'Jan', revenue: 4000, cost: 2400 },
       { name: 'Feb', revenue: 3000, cost: 1398 },
@@ -31,7 +28,7 @@ function GraphComponent({ data, onDownload }) {
     setGraphData(mockData);
   }, [data]);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
+  const COLORS = ['#6366f1', '#22c55e', '#eab308', '#ec4899', '#8b5cf6'];
 
   const renderGraph = () => {
     switch(graphType) {
@@ -48,8 +45,8 @@ function GraphComponent({ data, onDownload }) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="revenue" fill="#8884d8" />
-            <Bar dataKey="cost" fill="#82ca9d" />
+            <Bar dataKey="revenue" fill="#6366f1" />
+            <Bar dataKey="cost" fill="#22c55e" />
           </BarChart>
         );
       case 'pie':
@@ -61,7 +58,7 @@ function GraphComponent({ data, onDownload }) {
               cy={150}
               labelLine={false}
               outerRadius={80}
-              fill="#8884d8"
+              fill="#6366f1"
               dataKey="revenue"
             >
               {graphData.map((entry, index) => (
@@ -81,8 +78,6 @@ function GraphComponent({ data, onDownload }) {
   };
 
   const handleDownload = (format) => {
-    // TODO: Implement download logic for different formats
-    // Backend API call to generate and download files
     console.log(`Downloading in ${format} format`);
   };
 
@@ -91,22 +86,36 @@ function GraphComponent({ data, onDownload }) {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '20px',
-      backgroundColor: '#f0f2f5'
+      padding: '2rem',
+      margin:'50px',
+      backgroundColor: '#f8fafc',
+      borderRadius: '1rem',
+      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      transition: 'all 0.3s ease',
+      ':hover': {
+        boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'
+      }
     }}>
       <div style={{
-        marginBottom: '20px',
+        marginBottom: '1.5rem',
         display: 'flex',
-        gap: '10px'
+        gap: '0.75rem'
       }}>
         <button 
           onClick={() => setGraphType('bar')}
           style={{
-            padding: '10px',
-            backgroundColor: graphType === 'bar' ? '#1877f2' : '#fff',
-            color: graphType === 'bar' ? '#fff' : '#1877f2',
-            border: '1px solid #1877f2',
-            borderRadius: '5px'
+            padding: '0.75rem 1.5rem',
+            backgroundColor: graphType === 'bar' ? '#6366f1' : 'transparent',
+            color: graphType === 'bar' ? '#ffffff' : '#6366f1',
+            border: '2px solid #6366f1',
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            transition: 'all 0.2s ease',
+            cursor: 'pointer',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 6px -1px rgb(99 102 241 / 0.2)'
+            }
           }}
         >
           Bar Graph
@@ -114,32 +123,55 @@ function GraphComponent({ data, onDownload }) {
         <button 
           onClick={() => setGraphType('pie')}
           style={{
-            padding: '10px',
-            backgroundColor: graphType === 'pie' ? '#1877f2' : '#fff',
-            color: graphType === 'pie' ? '#fff' : '#1877f2',
-            border: '1px solid #1877f2',
-            borderRadius: '5px'
+            padding: '0.75rem 1.5rem',
+            backgroundColor: graphType === 'pie' ? '#6366f1' : 'transparent',
+            color: graphType === 'pie' ? '#ffffff' : '#6366f1',
+            border: '2px solid #6366f1',
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            transition: 'all 0.2s ease',
+            cursor: 'pointer',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 6px -1px rgb(99 102 241 / 0.2)'
+            }
           }}
         >
           Pie Chart
         </button>
       </div>
 
-      {renderGraph()}
+      <div style={{
+        transform: 'scale(1)',
+        transition: 'transform 0.3s ease',
+        ':hover': {
+          transform: 'scale(1.02)'
+        }
+      }}>
+        {renderGraph()}
+      </div>
 
       <div style={{
-        marginTop: '20px',
+        marginTop: '1.5rem',
         display: 'flex',
-        gap: '10px'
+        gap: '0.75rem'
       }}>
         <button 
           onClick={() => handleDownload('csv')}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#4CAF50',
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#22c55e',
             color: 'white',
             border: 'none',
-            borderRadius: '5px'
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              backgroundColor: '#16a34a',
+              boxShadow: '0 4px 6px -1px rgb(34 197 94 / 0.2)'
+            }
           }}
         >
           Download CSV
@@ -147,11 +179,19 @@ function GraphComponent({ data, onDownload }) {
         <button 
           onClick={() => handleDownload('json')}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#FF9800',
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#eab308',
             color: 'white',
             border: 'none',
-            borderRadius: '5px'
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              backgroundColor: '#ca8a04',
+              boxShadow: '0 4px 6px -1px rgb(234 179 8 / 0.2)'
+            }
           }}
         >
           Download JSON
@@ -159,11 +199,19 @@ function GraphComponent({ data, onDownload }) {
         <button 
           onClick={() => handleDownload('png')}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#2196F3',
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#6366f1',
             color: 'white',
             border: 'none',
-            borderRadius: '5px'
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            ':hover': {
+              transform: 'translateY(-2px)',
+              backgroundColor: '#4f46e5',
+              boxShadow: '0 4px 6px -1px rgb(99 102 241 / 0.2)'
+            }
           }}
         >
           Download PNG
