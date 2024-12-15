@@ -1,38 +1,61 @@
-from rest_framework import serializers
-from .models import Invoice, IncomingInvoice, Transaction, Product, InvoiceItem
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-
-
-class InvoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Invoice
-        fields = ['id', 'user', 'invoice_date', 'total_amount', 'status']
-
-
-class IncomingInvoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = IncomingInvoice
-        fields = ['id', 'user', 'supplier_name', 'invoice_date',
-                  'total_amount', 'status', 'category']
-
-
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = ['id', 'user', 'transaction_date', 'amount', 'type']
+from rest_framework import serializers
+from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'user', 'name', 'price', 'stock_quantity']
+        fields = '__all__'
 
 
-class InvoiceItemSerializer(serializers.ModelSerializer):
+class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InvoiceItem
-        fields = ['id', 'invoice', 'product', 'quantity', 'total_price']
+        model = Customer
+        fields = '__all__'
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = '__all__'
+
+
+class SaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sale
+        fields = '__all__'
+
+
+class SaleDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SaleDetail
+        fields = '__all__'
+
+
+class PurchaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Purchase
+        fields = '__all__'
+
+
+class PurchaseDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PurchaseDetail
+        fields = '__all__'
+
+
+class ExpenseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expense
+        fields = '__all__'
+
+
+class FinancialTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FinancialTransaction
+        fields = '__all__'
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
