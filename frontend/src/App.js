@@ -32,6 +32,7 @@ function App() {
         jsonData: { key1: 'value1', key2: 'value2' },
         graphData: [{ x: 1, y: 2 }, { x: 2, y: 3 }]
       });
+      console.log("Data set sucessfully")
     } catch (error) {
       console.error('Upload failed', error);
     }
@@ -63,10 +64,6 @@ function App() {
         <UploadComponent onFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
         {conversionData && (
           <GraphComponent
-            data={conversionData}
-            onDownload={() => {
-              console.log('Download logic to be implemented');
-            }}
           />
         )}
         <button 

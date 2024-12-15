@@ -34,7 +34,7 @@ function Login({ onLogin, onSwitchToSignup }) {
       right: 0,
       bottom: 0,
     }}>
-      <form 
+      <form
         onSubmit={handleSubmit}
         style={{
           width: '340px',
@@ -181,7 +181,7 @@ function Login({ onLogin, onSwitchToSignup }) {
           }
         `}
       </style>
-    </div>
+    </div >
   );
 }
 

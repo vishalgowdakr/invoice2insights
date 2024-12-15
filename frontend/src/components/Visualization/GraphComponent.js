@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  PieChart, 
-  Pie, 
-  Cell 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+  Cell
 } from 'recharts';
 
 function GraphComponent({ data, onDownload }) {
@@ -31,12 +31,12 @@ function GraphComponent({ data, onDownload }) {
   const COLORS = ['#6366f1', '#22c55e', '#eab308', '#ec4899', '#8b5cf6'];
 
   const renderGraph = () => {
-    switch(graphType) {
+    switch (graphType) {
       case 'bar':
         return (
-          <BarChart 
-            width={600} 
-            height={300} 
+          <BarChart
+            width={600}
+            height={300}
             data={graphData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
@@ -62,9 +62,9 @@ function GraphComponent({ data, onDownload }) {
               dataKey="revenue"
             >
               {graphData.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={COLORS[index % COLORS.length]} 
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
                 />
               ))}
             </Pie>
@@ -87,7 +87,7 @@ function GraphComponent({ data, onDownload }) {
       flexDirection: 'column',
       alignItems: 'center',
       padding: '2rem',
-      margin:'50px',
+      margin: '50px',
       backgroundColor: '#f8fafc',
       borderRadius: '1rem',
       boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -101,7 +101,7 @@ function GraphComponent({ data, onDownload }) {
         display: 'flex',
         gap: '0.75rem'
       }}>
-        <button 
+        <button
           onClick={() => setGraphType('bar')}
           style={{
             padding: '0.75rem 1.5rem',
@@ -120,7 +120,7 @@ function GraphComponent({ data, onDownload }) {
         >
           Bar Graph
         </button>
-        <button 
+        <button
           onClick={() => setGraphType('pie')}
           style={{
             padding: '0.75rem 1.5rem',
@@ -156,7 +156,7 @@ function GraphComponent({ data, onDownload }) {
         display: 'flex',
         gap: '0.75rem'
       }}>
-        <button 
+        <button
           onClick={() => handleDownload('csv')}
           style={{
             padding: '0.75rem 1.5rem',
@@ -176,7 +176,7 @@ function GraphComponent({ data, onDownload }) {
         >
           Download CSV
         </button>
-        <button 
+        <button
           onClick={() => handleDownload('json')}
           style={{
             padding: '0.75rem 1.5rem',
@@ -196,7 +196,7 @@ function GraphComponent({ data, onDownload }) {
         >
           Download JSON
         </button>
-        <button 
+        <button
           onClick={() => handleDownload('png')}
           style={{
             padding: '0.75rem 1.5rem',
@@ -218,6 +218,15 @@ function GraphComponent({ data, onDownload }) {
         </button>
       </div>
     </div>
+    // function GraphComponent() {
+    //   return (
+    //     <iframe
+    //       title="Dashboard"
+    //       src="http://localhost:8088/login?token=1234abcd456&next=/superset/dashboard/12?standalone=3"
+    //       width="100%"
+    //       height="800px"
+    //       sandbox="allow-same-origin allow-scripts"
+    //     ></iframe>
   );
 }
 
