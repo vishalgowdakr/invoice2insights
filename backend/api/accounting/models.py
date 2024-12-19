@@ -101,6 +101,6 @@ class FinancialTransaction(models.Model):
 
 
 class Invoice(models.Model):
-    invoice_file = models.FileField(upload_to='invoices/')
+    invoice_file = models.ImageField(upload_to='invoices/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

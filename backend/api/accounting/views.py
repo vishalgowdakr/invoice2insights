@@ -16,7 +16,7 @@ from .serializers import (
     ExpenseSerializer, FinancialTransactionSerializer, UserRegistrationSerializer,
     InvoiceSerializer
 )
-from rest_framework import views
+from .utils.utils import StructuredDataExtractor
 
 
 class UserOwnedModelViewSet(viewsets.ModelViewSet):
@@ -135,10 +135,20 @@ class CurrentUserView(APIView):
         })
 
 
-class FileUploadView(views.APIView):
+class FileUploadView(APIView):
     parser_classes = [FileUploadParser]
+    permission_classes = [IsAuthenticated]
 
-    def put(self, request, filename, format=None):
+    def put(self, request, filename):
         file_obj = request.data['file']
-        print(file_obj)
+        invoice = Invoice(invoice_file=file_obj, user=request.user)
+        invoice.save()
+        # check the file extension
+        extension = filename.split('.')[-1]
+        if extension not in ['jpg', 'png']:
+            return Response(status=400)
+        file_path = invoice.invoice_file.path
+        print('file_path', invoice.invoice_file.path)
+        structured_data_extractor = StructuredDataExtractor(file_path)
+        structured_data_extractor.extract()
         return Response(status=204)

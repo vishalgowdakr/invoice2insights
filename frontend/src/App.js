@@ -6,7 +6,7 @@ import GraphComponent from './components/Visualization/GraphComponent';
 import './styles/main.css';
 import createPersistedState from 'use-persisted-state';
 import { useAuthToken } from './utils/auth_utils';
-import { postAuthorized,  putAuthorized } from './utils/api_utils';
+import { putAuthorized } from './utils/api_utils';
 
 const useIsLoggedIn = createPersistedState('isLoggedIn');
 const useActiveView = createPersistedState('activeView');
