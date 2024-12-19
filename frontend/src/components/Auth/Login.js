@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
+import { useAuthToken } from '../../utils/auth_utils';
+import { postUnAuthorized } from '../../utils/api_utils';
 
 function Login({ onLogin, onSwitchToSignup }) {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login, isAuthenticated } = useAuthToken();
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Backend authentication logic
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email, password })
-    // });
-    onLogin();
+    // Backend authentication logic
+    setError(null);
+    try {
+      // Perform login request
+      const response = await postUnAuthorized('token/', {
+        username,
+        password
+      });
+
+      // Assuming the response contains access and refresh tokens
+      login(response.access, response.refresh);
+
+      // Redirect or update app state
+      console.log('Login successful');
+      onLogin();
+    } catch (err) {
+      setError('Login failed. Please check your credentials.');
+      console.error('Login error:', err);
+    }
   };
 
   return (
@@ -63,10 +79,10 @@ function Login({ onLogin, onSwitchToSignup }) {
           Invoice Converter Login
         </h2>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           style={{
             width: '100%',
             padding: '12px 16px',

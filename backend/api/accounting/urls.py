@@ -4,7 +4,11 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProductViewSet, CustomerViewSet, SupplierViewSet, SaleViewSet,
     SaleDetailViewSet, PurchaseViewSet, PurchaseDetailViewSet,
-    ExpenseViewSet, FinancialTransactionViewSet, UserRegistrationView
+    ExpenseViewSet, FinancialTransactionViewSet,
+    MyTokenObtainPairView, RegisterView, InvoiceView, CurrentUserView
+)
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
 )
 
 router = DefaultRouter()
@@ -17,8 +21,12 @@ router.register(r'purchases', PurchaseViewSet)
 router.register(r'purchase-details', PurchaseDetailViewSet)
 router.register(r'expenses', ExpenseViewSet)
 router.register(r'financial-transactions', FinancialTransactionViewSet)
+router.register(r'upload', InvoiceView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('register/', UserRegistrationView.as_view(), name='register'),
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', RegisterView.as_view(), name='auth_register'),
+    path('user/', CurrentUserView.as_view(), name='current_user'),
 ]

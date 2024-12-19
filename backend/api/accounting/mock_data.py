@@ -1,45 +1,53 @@
-from models import (
-    Product, Customer, Supplier,
-    Sale, SaleDetail, Purchase, PurchaseDetail,
-    Expense, FinancialTransaction
-)
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
-import os
-import django
 import random
+from django.contrib.auth.hashers import make_password
 from faker import Faker
-
-# Setup Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
-django.setup()
-
 
 fake = Faker()
 
 
+def clear_existing_data():
+    """Clear existing data from all models"""
+    from django.apps import apps
+
+    # Get all models from installed apps
+    models = apps.get_models()
+
+    for model in models:
+        model.objects.all().delete()
+
+    print("All existing data cleared.")
+
+
 def generate_users(num=10):
     """Generate mock users"""
-    roles = ['Owner', 'Staff']
+    from .models import User
+
+    users = []
+
     for _ in range(num):
-        User.objects.create(
+        user = User.objects.create(
             username=fake.user_name(),
-            # Never use this in production!
-            password=make_password('password123'),
-            role=random.choice(roles)
+            password=make_password('password123'),  # Never use in production!
         )
+        users.append(user)
+
+    print(f"{num} users created.")
+    return users
 
 
 def generate_products(num=50):
     """Generate mock products"""
+    from .models import Product
+
     categories = ['Electronics', 'Clothing', 'Food', 'Beverages', 'Stationery']
     manufacturers = ['ABC Corp', 'XYZ Ltd', 'Global Traders', 'Local Brands']
+    products = []
 
     for _ in range(num):
         cost_price = round(random.uniform(10, 500), 2)
         selling_price = round(cost_price * random.uniform(1.2, 2.0), 2)
 
-        Product.objects.create(
+        product = Product.objects.create(
             name=fake.word(),
             category=random.choice(categories),
             manufacturer=random.choice(manufacturers),
@@ -50,36 +58,55 @@ def generate_products(num=50):
             stock_quantity=random.randint(10, 500),
             reorder_level=random.randint(5, 20)
         )
+        products.append(product)
+
+    print(f"{num} products created.")
+    return products
 
 
 def generate_customers(num=30):
     """Generate mock customers"""
+    from .models import Customer
+    customers = []
+
+    print(f'91 {fake.msisdn()[3:]}')
     for _ in range(num):
-        Customer.objects.create(
+        customer = Customer.objects.create(
             name=fake.name(),
-            phone=fake.phone_number(),
+            phone=f'+91 {fake.msisdn()[3:]}',
             email=fake.email(),
             address=fake.address()
         )
+        customers.append(customer)
+
+    print(f"{num} customers created.")
+    return customers
 
 
 def generate_suppliers(num=15):
     """Generate mock suppliers"""
+    from .models import Supplier
+    suppliers = []
+
     for _ in range(num):
-        Supplier.objects.create(
+        supplier = Supplier.objects.create(
             name=fake.company(),
             contact_person=fake.name(),
-            phone=fake.phone_number(),
+            phone=f'+91 {fake.msisdn()[3:]}',
             email=fake.company_email(),
             address=fake.address()
         )
+        suppliers.append(supplier)
+
+    print(f"{num} suppliers created.")
+    return suppliers
 
 
-def generate_sales(num=100):
+def generate_sales(users, customers, products, num=100):
     """Generate mock sales"""
-    users = list(User.objects.all())
-    customers = list(Customer.objects.all())
-    products = list(Product.objects.all())
+    from .models import Sale, SaleDetail
+    sales = []
+
     payment_modes = ['Cash', 'Card', 'UPI', 'NetBanking']
 
     for _ in range(num):
@@ -123,12 +150,17 @@ def generate_sales(num=100):
         sale.net_amount = total_amount - discount
         sale.save()
 
+        sales.append(sale)
 
-def generate_purchases(num=50):
+    print(f"{num} sales created.")
+    return sales
+
+
+def generate_purchases(users, suppliers, products, num=50):
     """Generate mock purchases"""
-    users = list(User.objects.all())
-    suppliers = list(Supplier.objects.all())
-    products = list(Product.objects.all())
+    from .models import Purchase, PurchaseDetail
+    purchases = []
+
     payment_modes = ['Cash', 'Card', 'UPI', 'NetBanking']
 
     for _ in range(num):
@@ -167,49 +199,109 @@ def generate_purchases(num=50):
         purchase.total_cost = total_cost
         purchase.save()
 
+        purchases.append(purchase)
 
-def generate_expenses(num=30):
+    print(f"{num} purchases created.")
+    return purchases
+
+
+def generate_expenses(users, num=30):
     """Generate mock expenses"""
-    users = list(User.objects.all())
+    from .models import Expense
+    expenses = []
+
     expense_categories = [
         'Rent', 'Utilities', 'Salaries', 'Marketing',
         'Maintenance', 'Office Supplies', 'Travel'
     ]
 
     for _ in range(num):
-        Expense.objects.create(
+        expense = Expense.objects.create(
             category=random.choice(expense_categories),
             amount=round(random.uniform(50, 5000), 2),
             notes=fake.sentence(),
             created_by=random.choice(users)
         )
+        expenses.append(expense)
+
+    print(f"{num} expenses created.")
+    return expenses
 
 
-def generate_financial_transactions(num=50):
+def generate_financial_transactions(users, num=50):
     """Generate mock financial transactions"""
-    users = list(User.objects.all())
+    from .models import FinancialTransaction
+    transactions = []
 
     for _ in range(num):
-        FinancialTransaction.objects.create(
+        transaction = FinancialTransaction.objects.create(
             type=random.choice(['Income', 'Expense']),
             amount=round(random.uniform(100, 10000), 2),
             description=fake.sentence(),
             created_by=random.choice(users)
         )
+        transactions.append(transaction)
+
+    print(f"{num} financial transactions created.")
+    return transactions
 
 
 def generate_mock_data():
     """Generate complete mock dataset"""
-    generate_users()
-    generate_products()
-    generate_customers()
-    generate_suppliers()
-    generate_sales()
-    generate_purchases()
-    generate_expenses()
-    generate_financial_transactions()
+    # Clear existing data first
+    clear_existing_data()
 
+    # Generate base entities first
+    users = generate_users()
+    products = generate_products()
+    customers = generate_customers()
+    suppliers = generate_suppliers()
 
-if __name__ == '__main__':
-    generate_mock_data()
+    # Generate dependent entities
+    generate_sales(users, customers, products)
+    generate_purchases(users, suppliers, products)
+    generate_expenses(users)
+    generate_financial_transactions(users)
+
     print("Mock data generation complete!")
+
+
+def alter_sales_date():
+    """Alter sales date"""
+    from .models import Sale
+    sales = Sale.objects.all()
+    for sale in sales:
+        sale.sale_date = fake.date_time_between(
+            start_date='-1y', end_date='now')
+        sale.save()
+
+
+def alter_expenses_date():
+    """Alter expenses date"""
+    from .models import Expense
+    expenses = Expense.objects.all()
+    for expense in expenses:
+        expense.expense_date = fake.date_time_between(
+            start_date='-1y', end_date='now')
+        expense.save()
+
+
+def alter_purchase_date():
+    """Alter purchaase date"""
+    from .models import Purchase
+    purchases = Purchase.objects.all()
+    for purchase in purchases:
+        purchase.purchase_date = fake.date_time_between(
+            start_date='-1y', end_date='now'
+        )
+        purchase.save()
+
+
+# Usage instructions
+print("""
+Mock Data Generator Ready!
+
+To generate mock data, run in Django shell:
+>>> from your_app.mock_data import generate_mock_data
+>>> generate_mock_data()
+""")

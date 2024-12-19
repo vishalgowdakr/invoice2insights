@@ -4,12 +4,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction
+from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction, Invoice
+from accounting.serializers import MyTokenObtainPairSerializer, RegisterSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import generics
+from django.contrib.auth.models import User
 from .serializers import (
     ProductSerializer, CustomerSerializer, SupplierSerializer, SaleSerializer,
     SaleDetailSerializer, PurchaseSerializer, PurchaseDetailSerializer,
-    ExpenseSerializer, FinancialTransactionSerializer, UserRegistrationSerializer
+    ExpenseSerializer, FinancialTransactionSerializer, UserRegistrationSerializer,
+    InvoiceSerializer
 )
+from rest_framework.decorators import api_view
 
 
 class UserOwnedModelViewSet(viewsets.ModelViewSet):
@@ -95,3 +101,29 @@ class ExpenseViewSet(UserOwnedModelViewSet):
 class FinancialTransactionViewSet(UserOwnedModelViewSet):
     queryset = FinancialTransaction.objects.all()
     serializer_class = FinancialTransactionSerializer
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+
+class InvoiceView(UserOwnedModelViewSet):
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceSerializer
+
+
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({
+            'user_id': request.user.id,
+            'username': request.user.username,
+            'is_authenticated': request.user.is_authenticated
+        })
