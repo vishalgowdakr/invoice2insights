@@ -25,7 +25,7 @@ class CustomAuthUserView(AuthRemoteUserView):
         sm = self.appbuilder.sm
         session = sm.get_session
         user = session.query(sm.user_model).filter_by(
-            username='vishal').first()
+            username='superuser').first()
         if token == '1234abcd456':
             login_user(user, remember=False, force=True)
             if (next is not None):

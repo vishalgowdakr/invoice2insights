@@ -6,7 +6,7 @@ import GraphComponent from './components/Visualization/GraphComponent';
 import './styles/main.css';
 import createPersistedState from 'use-persisted-state';
 import { useAuthToken } from './utils/auth_utils';
-import { postAuthorized } from './utils/api_utils';
+import { postAuthorized,  putAuthorized } from './utils/api_utils';
 
 const useIsLoggedIn = createPersistedState('isLoggedIn');
 const useActiveView = createPersistedState('activeView');
@@ -28,11 +28,16 @@ function App() {
   };
 
   const handleFileUpload = async (file) => {
+    const file_name = file.name;
     try {
-      const response = await withTokenRotation(() =>
-        postAuthorized('upload/', {
-          invoice_file: file
-        })
+      console.log(file)
+      const response = await withTokenRotation(() => {
+        console.log('file', file)
+        const formData = new FormData();
+        console.log(formData)
+        formData.append('file', file);
+        return putAuthorized(`upload/${encodeURIComponent(file_name)}`, formData, 'multipart/form-data')
+      }
       )();
 
       console.log('Upload response:', response);

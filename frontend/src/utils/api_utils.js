@@ -130,7 +130,7 @@ export async function postAuthorized(endpoint, data, contentType = 'application/
         'Accept': 'application/json',
         'Content-Type': contentType
       },
-      body: JSON.stringify(data)
+      body: contentType === 'multipart/form-data' ? data : JSON.stringify(data) 
     });
     return await handleResponse(response);
   } catch (error) {
@@ -145,7 +145,7 @@ export async function postAuthorized(endpoint, data, contentType = 'application/
  * @param {Object} data - Request payload
  * @returns {Promise} Promise resolving to response data
  */
-export async function putAuthorized(endpoint, data) {
+export async function putAuthorized(endpoint, data, contentType = 'application/json') {
   try {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -159,7 +159,7 @@ export async function putAuthorized(endpoint, data) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: contentType === 'multipart/form-data' ? data : JSON.stringify(data)
     });
     return await handleResponse(response);
   } catch (error) {

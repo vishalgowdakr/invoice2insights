@@ -1,9 +1,10 @@
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction, Invoice
 from accounting.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -15,7 +16,7 @@ from .serializers import (
     ExpenseSerializer, FinancialTransactionSerializer, UserRegistrationSerializer,
     InvoiceSerializer
 )
-from rest_framework.decorators import api_view
+from rest_framework import views
 
 
 class UserOwnedModelViewSet(viewsets.ModelViewSet):
@@ -113,9 +114,14 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 
-class InvoiceView(UserOwnedModelViewSet):
+class InvoiceView(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class CurrentUserView(APIView):
@@ -127,3 +133,12 @@ class CurrentUserView(APIView):
             'username': request.user.username,
             'is_authenticated': request.user.is_authenticated
         })
+
+
+class FileUploadView(views.APIView):
+    parser_classes = [FileUploadParser]
+
+    def put(self, request, filename, format=None):
+        file_obj = request.data['file']
+        print(file_obj)
+        return Response(status=204)

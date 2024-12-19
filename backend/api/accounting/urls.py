@@ -1,11 +1,12 @@
 # urls.py
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from .views import (
     ProductViewSet, CustomerViewSet, SupplierViewSet, SaleViewSet,
     SaleDetailViewSet, PurchaseViewSet, PurchaseDetailViewSet,
     ExpenseViewSet, FinancialTransactionViewSet,
-    MyTokenObtainPairView, RegisterView, InvoiceView, CurrentUserView
+    MyTokenObtainPairView, RegisterView, InvoiceView, CurrentUserView,
+    FileUploadView
 )
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -21,7 +22,7 @@ router.register(r'purchases', PurchaseViewSet)
 router.register(r'purchase-details', PurchaseDetailViewSet)
 router.register(r'expenses', ExpenseViewSet)
 router.register(r'financial-transactions', FinancialTransactionViewSet)
-router.register(r'upload', InvoiceView)
+router.register(r'invoices', InvoiceView)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('user/', CurrentUserView.as_view(), name='current_user'),
+    re_path(r'^upload/(?P<filename>[^/]+)$', FileUploadView.as_view()),
 ]
