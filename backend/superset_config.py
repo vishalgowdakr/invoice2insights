@@ -5,7 +5,7 @@ from flask_appbuilder.security.manager import BaseSecurityManager
 from superset.security import SupersetSecurityManager
 from flask_appbuilder.security.views import expose
 
-SECRET_KEY = 'd+zT49TdTrEIcFn4e0ZsbQPClmKiXwpGJKOg/So8bfhMKeWJgc3z8r+F'
+SECRET_KEY = 'MaaOgN5wloENtVOqvFX3ze5CiC+oBwFF7Kwngs3KmhadKT/c1djdD+Ow'
 
 FEATURE_FLAGS = {
     # Paste this along with other feature flag options
@@ -25,7 +25,7 @@ class CustomAuthUserView(AuthRemoteUserView):
         sm = self.appbuilder.sm
         session = sm.get_session
         user = session.query(sm.user_model).filter_by(
-            username='superuser').first()
+            username='vishal').first()
         if token == '1234abcd456':
             login_user(user, remember=False, force=True)
             if (next is not None):
