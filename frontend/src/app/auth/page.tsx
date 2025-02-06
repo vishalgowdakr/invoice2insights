@@ -1,7 +1,6 @@
-// _components/page.tsx
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Updated import for App Router
+import { useRouter } from 'next/navigation';
 import Login from './_components/Login';
 import Signup from './_components/Signup';
 

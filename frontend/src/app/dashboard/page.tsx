@@ -1,19 +1,14 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
 import UploadComponent from './_components/Upload/UploadComponent';
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useAuthToken } from '../_utils/auth_utils';
 import { putAuthorized } from '../_utils/api_utils';
 
-
-interface AuthPageProps {
-  isAuthenticated: boolean;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}
-function App({ isAuthenticated, setIsAuthenticated }: AuthPageProps) {
-  const [activeView, setActiveView] = useState('upload');
+function App({ isAuthenticated, setIsAuthenticated }: any) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [conversionData, setConversionData] = useState<any>(null);
+  const [activeView, setActiveView] = useState('upload');
   const { withTokenRotation } = useAuthToken({ isAuthenticated, setIsAuthenticated });
 
   const handleFileUpload = async (file: File) => {
@@ -21,7 +16,7 @@ function App({ isAuthenticated, setIsAuthenticated }: AuthPageProps) {
     try {
       const response = await withTokenRotation(() => {
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('invoice_file', file);
         return putAuthorized(`upload/${encodeURIComponent(file_name)}`, formData, 'multipart/form-data');
       })();
 
@@ -80,25 +75,22 @@ function App({ isAuthenticated, setIsAuthenticated }: AuthPageProps) {
               width: '50%',
             }}>
               <h1 style={{ marginBottom: '3rem' }}>Upload Invoice</h1>
-              <UploadComponent onFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
+              <UploadComponent uploadedFile={uploadedFile} onFileUpload={handleFileUpload} />
             </div>
             {conversionData && (
-              <div>
-                <CopyBlock
-                  text={JSON.stringify(conversionData, null, 2)}
-                  language="json"
-                  showLineNumbers={true}
-                  theme={dracula}
-                  codeBlock
-                  customStyle={{
-                    width: '40%',
-                    height: '70%',
-                    marginRight: '1rem',
-                    marginTop: '6rem',
-                  }}
-                />
-                <div>{JSON.stringify(conversionData, null, 2)}</div>
-              </div>
+              <CopyBlock
+                text={JSON.stringify(conversionData, null, 2)}
+                language="json"
+                showLineNumbers={true}
+                theme={dracula}
+                codeBlock
+                customStyle={{
+                  width: '40%',
+                  height: '70%',
+                  marginRight: '1rem',
+                  marginTop: '6rem',
+                }}
+              />
             )}
           </div>
         </div>

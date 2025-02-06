@@ -8,6 +8,10 @@ interface UploadComponentProps {
 const UploadComponent: React.FC<UploadComponentProps> = ({ onFileUpload, uploadedFile }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [dragActive, setDragActive] = useState<boolean>(false);
+	const FileUploadSuccessMessage = "File uploaded successfully!"
+	const DragAndDropMessage = "Drag and drop your file here"
+	const SupportedFileTypesMessage = "Support file types are: pdf, jpeg, png"
+
 
 	const handleDrag = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
@@ -63,12 +67,12 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onFileUpload, uploade
 						{uploadedFile ? (
 							<>
 								<div className="upload-text">{uploadedFile.name}</div>
-								<div className="upload-subtext">File ready for processing</div>
+								<div className="upload-subtext">{FileUploadSuccessMessage}</div>
 							</>
 						) : (
 							<>
-								<div className="upload-text">Drag & Drop or Click to Upload</div>
-								<div className="upload-subtext">Supported: PDF, PNG, JPG</div>
+								<div className="upload-text">{DragAndDropMessage}</div>
+								<div className="upload-subtext">{SupportedFileTypesMessage}</div>
 							</>
 						)}
 					</div>

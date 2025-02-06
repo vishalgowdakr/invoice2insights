@@ -558,3 +558,5 @@ zipp==3.21.0
 zope.event==5.0
 zope.interface==5.4.0
 zstandard==0.23.0
+
+django-minio-storage==0.5.7

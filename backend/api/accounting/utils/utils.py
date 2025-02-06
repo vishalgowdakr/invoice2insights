@@ -34,13 +34,10 @@ class StructuredDataExtractor:
 
     def _get_base64_image(self, image_path):
         # Open the image using PIL
-        with Image.open(image_path) as img:
-            # Create a bytes buffer
+        with Image.open(image_path) as image:
+            # Convert the image to bytes
             buffer = io.BytesIO()
-            # Save the image to the buffer in PNG format
-            img.save(buffer, format='PNG')
-            # Get the bytes value and encode to base64
-            buffer.seek(0)
+            image.save(buffer, format='PNG')
             image_bytes = buffer.getvalue()
             return base64.b64encode(image_bytes).decode('utf-8')
 
@@ -61,6 +58,7 @@ class StructuredDataExtractor:
             timeout=None,
             max_retries=2,
         )
+        llm = llm.with_structured_output(Purchase)
 
         try:
             # Prepare the image
@@ -69,21 +67,7 @@ class StructuredDataExtractor:
             messages = [
                 AIMessage(content="""
                 You are an intelligent assistant trained to analyze invoice images.
-                Extract the information and provide output in this exact JSON format:
-                {
-                    "purchase_date": "YYYY-MM-DD HH:MM:SS",
-                    "supplier_name": "string",
-                    "total_cost": number,
-                    "payment_mode": "string (max 15 chars)",
-                    "purchase_details": [
-                        {
-                            "product_name": "string",
-                            "quantity": integer,
-                            "cost_price": number,
-                            "subtotal": number
-                        }
-                    ]
-                }
+
                 Important rules:
                 - purchase_date must be in ISO format (YYYY-MM-DD HH:MM:SS)
                 - payment_mode must not exceed 15 characters
@@ -106,14 +90,9 @@ class StructuredDataExtractor:
 
             # Get response and clean it
             response = llm.invoke(messages)
-            cleaned_json = self._clean_json_response(response.content)
-            print(cleaned_json)
+            print(response)
 
-            # Parse into Pydantic model
-            structured_data = Purchase.model_validate_json(cleaned_json)
-            print(structured_data)
-
-            return structured_data
+            return response
 
         except Exception as e:
             print(f"Error processing image: {str(e)}")
