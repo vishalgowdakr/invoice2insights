@@ -85,12 +85,31 @@ export const useAuthToken = ({ isAuthenticated, setIsAuthenticated }: any): Auth
 
   const withTokenRotation = <T extends (...args: any[]) => Promise<any>>(apiCall: T): T => {
     return (async (...args: Parameters<T>): Promise<ReturnType<T>> => {
-      const currentToken = getAccessToken();
-      if (currentToken && isTokenExpired(currentToken)) {
-        const newToken = await rotateToken();
-        if (!newToken) throw new Error('Unable to refresh token');
+      try {
+        // Check and rotate token if needed
+        const currentToken = getAccessToken();
+        if (currentToken && isTokenExpired(currentToken)) {
+          const newToken = await rotateToken();
+          if (!newToken) throw new Error('Unable to refresh token');
+        }
+
+        // First attempt at API call
+        try {
+          return await apiCall(...args);
+        } catch (error) {
+          // If first attempt fails with 401, try rotating token once more
+          if (error instanceof Response && error.status === 401) {
+            const newToken = await rotateToken();
+            if (!newToken) throw new Error('Unable to refresh token');
+            // Retry API call with new token
+            return await apiCall(...args);
+          }
+          throw error;
+        }
+      } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
       }
-      return apiCall(...args);
     }) as T;
   };
 

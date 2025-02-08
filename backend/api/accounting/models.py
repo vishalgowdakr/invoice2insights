@@ -100,7 +100,23 @@ class FinancialTransaction(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
+class Upload(models.Model):
+    JPG = 'jpg'
+    PNG = 'png'
+    PDF = 'pdf'
+    FILE_TYPE_CHOICES = [
+        (JPG, 'JPG'),
+        (PNG, 'PNG'),
+        (PDF, 'PDF'),
+    ]
+    file_type = models.CharField(choices=FILE_TYPE_CHOICES, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
 class Invoice(models.Model):
-    invoice_file = models.ImageField(upload_to='invoices/')
+    upload = models.ForeignKey(Upload, on_delete=models.SET_NULL, null=True)
+    invoice_file = models.FileField(upload_to='invoices/')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+

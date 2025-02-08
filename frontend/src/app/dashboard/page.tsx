@@ -3,25 +3,32 @@ import React, { useState } from 'react';
 import UploadComponent from './_components/Upload/UploadComponent';
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useAuthToken } from '../_utils/auth_utils';
-import { putAuthorized } from '../_utils/api_utils';
+import { postAuthorized } from '../_utils/api_utils';
 
 function App({ isAuthenticated, setIsAuthenticated }: any) {
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  // State for multiple uploaded files
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [conversionData, setConversionData] = useState<any>(null);
   const [activeView, setActiveView] = useState('upload');
+  // State for file type selection (common for the batch)
+  const [fileType, setFileType] = useState<string>('pdf');
   const { withTokenRotation } = useAuthToken({ isAuthenticated, setIsAuthenticated });
 
-  const handleFileUpload = async (file: File) => {
-    const file_name = file.name;
+  // Modified to accept an array of Files
+  const handleFileUpload = async (files: File[]) => {
     try {
       const response = await withTokenRotation(() => {
         const formData = new FormData();
-        formData.append('invoice_file', file);
-        return putAuthorized(`upload/${encodeURIComponent(file_name)}`, formData, 'multipart/form-data');
+        formData.append('file_type', fileType);
+        files.forEach(file => {
+          console.log('File:', file.name, file.type); // Add this
+          formData.append('invoice_files', file);
+        });
+        return postAuthorized('upload/', formData, 'multipart/form-data');
       })();
 
       console.log('Upload response:', response);
-      setUploadedFile(file);
+      setUploadedFiles(files);
       setConversionData(JSON.parse(response.json));
     } catch (error) {
       console.error('Upload failed', error);
@@ -74,8 +81,25 @@ function App({ isAuthenticated, setIsAuthenticated }: any) {
               padding: '1rem',
               width: '50%',
             }}>
-              <h1 style={{ marginBottom: '3rem' }}>Upload Invoice</h1>
-              <UploadComponent uploadedFile={uploadedFile} onFileUpload={handleFileUpload} />
+              <h1 style={{ marginBottom: '1rem' }}>Upload Invoice</h1>
+              {/* File type selection for the batch */}
+              <div style={{ marginBottom: '1rem' }}>
+                <label htmlFor="fileTypeSelect" style={{ marginRight: '0.5rem' }}>
+                  Select File Type:
+                </label>
+                <select
+                  id="fileTypeSelect"
+                  value={fileType}
+                  onChange={(e) => setFileType(e.target.value)}
+                  style={{ padding: '0.5rem', borderRadius: '4px', color: 'black' }}
+                >
+                  <option value="jpg">JPG</option>
+                  <option value="png">PNG</option>
+                  <option value="pdf">PDF</option>
+                </select>
+              </div>
+              {/* Pass the updated props to support multiple files */}
+              <UploadComponent uploadedFiles={uploadedFiles} onFileUpload={handleFileUpload} />
             </div>
             {conversionData && (
               <CopyBlock

@@ -6,7 +6,7 @@ from .views import (
     SaleDetailViewSet, PurchaseViewSet, PurchaseDetailViewSet,
     ExpenseViewSet, FinancialTransactionViewSet,
     MyTokenObtainPairView, RegisterView, InvoiceView, CurrentUserView,
-    FileUploadView
+    BatchUploadAPIView
 )
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -30,5 +30,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('user/', CurrentUserView.as_view(), name='current_user'),
-    re_path(r'^upload/(?P<filename>[^/]+)$', FileUploadView.as_view()),
+    path('upload/', BatchUploadAPIView.as_view(), name='batch-upload'),
 ]

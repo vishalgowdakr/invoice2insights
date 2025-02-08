@@ -136,11 +136,9 @@ class CurrentUserView(APIView):
 
 
 from rest_framework.views import APIView
-from rest_framework.parsers import FileUploadParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from accounting.models import Invoice
-from accounting.utils.utils import StructuredDataExtractor
 
 from django.forms import ModelForm
 class InvoiceForm(ModelForm):
@@ -148,41 +146,50 @@ class InvoiceForm(ModelForm):
         model = Invoice
         fields = ['invoice_file']
 
-class FileUploadView(APIView):
-    parser_classes = [MultiPartParser] # Use MultiPartParser
+# views.py
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Upload, Invoice
+
+class BatchUploadAPIView(APIView):
+    # If you require authentication you can add permission classes here
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
-    def put(self, request, filename):
-        # Initialize InvoiceForm with request data
-        form = InvoiceForm(request.data, request.FILES) # Important: Pass both request.data and request.FILES
+    def post(self, request):
+        # Get the file type from the request data.
+        print(request.data)
+        file_type = request.data.get('file_type')
+        print("*"*100)
+        print(file_type)
+        valid_types = dict(Upload.FILE_TYPE_CHOICES).keys()
+        if file_type not in valid_types:
+            return Response(
+                {'error': f"Invalid file type. Must be one of: {', '.join(valid_types)}."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if form.is_valid(): # Validate the form
-            invoice = form.save(commit=False) # Create Invoice instance but don't save to DB yet
-            invoice.user = request.user # Set the user from the request
-            invoice.save() # Now save to database
+        # Retrieve all files under the key "invoice_files"
+        files = request.FILES.getlist('invoice_files')
+        if not files:
+            return Response(
+                {'error': "No files provided."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-            # Check the file extension (good practice - get from saved file)
-            file_path = invoice.invoice_file.path
-            extension = filename.split('.')[-1].lower() # Get extension from filename URL
-            saved_extension = file_path.split('.')[-1].lower() # Get extension from saved file path
+        # Create a new Upload instance to represent this batch.
+        upload_instance = Upload.objects.create(file_type=file_type, user=request.user)
 
-            if saved_extension not in ['jpg', 'png', 'jpeg']: # Added jpeg for completeness
-                return Response({"error": "Invalid file extension. Allowed extensions are jpg, png, jpeg."}, status=400)
+        # Create an Invoice for each file.
+        invoices = []
+        for file_obj in files:
+            invoice = Invoice.objects.create(
+                upload=upload_instance,
+                invoice_file=file_obj,
+            )
+            invoices.append(invoice)
 
-            print('file_path', file_path) # Debug: Verify file path
-
-            structured_data_extractor = StructuredDataExtractor(file_path)
-            structured_data = structured_data_extractor.extract() # Process the image
-
-            if structured_data:
-                print("Structured data extracted successfully.")
-                # You can process or return the structured_data here if needed
-            else:
-                print("Error during structured data extraction.")
-                # Handle extraction error if needed
-
-            return Response(status=204) # 204 No Content - Upload successful
-        else:
-            # Form is invalid, return errors
-            print("Form is invalid:", form.errors) # Debug form errors
-            return Response(form.errors, status=400) # Return form errors in response
+        # Serialize the created Invoice instances.
+        serializer = InvoiceSerializer(invoices, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

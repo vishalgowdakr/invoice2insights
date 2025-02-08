@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'accounting',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
-    'minio_storage',
 ]
 
 MIDDLEWARE = [
@@ -181,14 +180,3 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-# Minio Configuration
-MINIO_STORAGE_ENDPOINT = os.environ.get('MINIO_ENDPOINT')  # Minio server URL
-MINIO_STORAGE_ACCESS_KEY =  os.environ.get('MINIO_ACCESS_KEY')      # Minio root user or IAM key
-MINIO_STORAGE_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY')       # Minio password
-MINIO_STORAGE_USE_HTTPS = False                    # Set True for production
-MINIO_STORAGE_MEDIA_BUCKET_NAME = 'media'          # Bucket for user-uploaded files
-MINIO_STORAGE_AUTO_CREATE_MEDIA_BUCKET = True      # Auto-create bucket if missing:cite[9]
-
-# Set Minio as default storage for media files
-DEFAULT_FILE_STORAGE = 'minio_storage.storage.MinioMediaStorage'

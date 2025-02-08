@@ -132,4 +132,4 @@ class RegisterSerializer(serializers.ModelSerializer):
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = '__all__'
+        fields = ('id', 'invoice_file', 'created_at')
