@@ -1,6 +1,7 @@
 import random
 from django.contrib.auth.hashers import make_password
 from faker import Faker
+from django.utils import timezone
 
 fake = Faker()
 
@@ -271,29 +272,36 @@ def alter_sales_date():
     from .models import Sale
     sales = Sale.objects.all()
     for sale in sales:
-        sale.sale_date = fake.date_time_between(
-            start_date='-1y', end_date='now')
+        naive_datetime = fake.date_time_between(start_date='-1y', end_date='now')
+        # Make the naive datetime timezone-aware
+        sale.sale_date = timezone.make_aware(naive_datetime)
         sale.save()
 
+from django.utils import timezone
+from faker import Faker
+
+fake = Faker()
 
 def alter_expenses_date():
     """Alter expenses date"""
     from .models import Expense
     expenses = Expense.objects.all()
     for expense in expenses:
-        expense.expense_date = fake.date_time_between(
+        naive_datetime = fake.date_time_between(
             start_date='-1y', end_date='now')
+        expense.expense_date = timezone.make_aware(naive_datetime)
         expense.save()
 
 
 def alter_purchase_date():
-    """Alter purchaase date"""
+    """Alter purchase date"""
     from .models import Purchase
     purchases = Purchase.objects.all()
     for purchase in purchases:
-        purchase.purchase_date = fake.date_time_between(
+        naive_datetime = fake.date_time_between(
             start_date='-1y', end_date='now'
-        )
+    )
+        purchase.purchase_date = timezone.make_aware(naive_datetime)
         purchase.save()
 
 

@@ -1,63 +1,8 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction, Invoice
+from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction, Invoice, Upload
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = '__all__'
-
-
-class SupplierSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Supplier
-        fields = '__all__'
-
-
-class SaleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sale
-        fields = '__all__'
-
-
-class SaleDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SaleDetail
-        fields = '__all__'
-
-
-class PurchaseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Purchase
-        fields = '__all__'
-
-
-class PurchaseDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PurchaseDetail
-        fields = '__all__'
-
-
-class ExpenseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Expense
-        fields = '__all__'
-
-
-class FinancialTransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FinancialTransaction
-        fields = '__all__'
-
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -130,6 +75,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
+    invoice_file = serializers.FileField(write_only=True)
     class Meta:
         model = Invoice
-        fields = ('id', 'invoice_file', 'created_at')
+        fields = ('id', 'created_at', 'invoice_file')
+
+class UploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Upload
+        fields = ('id', 'created_at', 'file_type')

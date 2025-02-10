@@ -107,13 +107,18 @@ export async function postAuthorized(
     const token: string | null = localStorage.getItem('accessToken');
     if (!token) throw new Error('No access token found');
 
+    const headers: Record<string, string> = {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    };
+
+    if (contentType !== 'multipart/form-data') {
+      headers['Content-Type'] = contentType;
+    }
+
     const response: Response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': contentType
-      },
+      headers,
       body: contentType === 'multipart/form-data' ? data : JSON.stringify(data)
     });
     return handleResponse(response);

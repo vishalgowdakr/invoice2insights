@@ -1,106 +1,108 @@
 'use client'
 import React, { useRef, useState, ChangeEvent, DragEvent } from 'react';
+import { CallAnalyzeStatus } from '../../page';
 
 interface UploadComponentProps {
-	// Change prop type to accept an array of Files
-	onFileUpload: (files: File[]) => void;
-	uploadedFiles: File[];
+  // Change prop type to accept an array of Files
+  onFileUpload: (files: File[]) => void;
+  uploadedFiles: File[];
+  onAnalyze: (status: CallAnalyzeStatus) => void
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({ onFileUpload, uploadedFiles }) => {
-	const fileInputRef = useRef<HTMLInputElement>(null);
-	const [dragActive, setDragActive] = useState<boolean>(false);
-	const FileUploadSuccessMessage = "File(s) uploaded successfully!";
-	const DragAndDropMessage = "Drag and drop your file(s) here";
-	const SupportedFileTypesMessage = "Supported file types are: pdf, jpeg, png";
+const UploadComponent: React.FC<UploadComponentProps> = ({ onFileUpload, uploadedFiles, onAnalyze }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [dragActive, setDragActive] = useState<boolean>(false);
+  const FileUploadSuccessMessage = "File(s) uploaded successfully!";
+  const DragAndDropMessage = "Drag and drop your file(s) here";
+  const SupportedFileTypesMessage = "Supported file types are: pdf, jpeg, png";
 
-	// Handle drag events to update UI state
-	const handleDrag = (e: DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		e.stopPropagation();
-		if (e.type === "dragenter" || e.type === "dragover") {
-			setDragActive(true);
-		} else if (e.type === "dragleave") {
-			setDragActive(false);
-		}
-	};
+  // Handle drag events to update UI state
+  const handleDrag = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
 
-	// On drop, convert FileList to an array and call onFileUpload
-	const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		e.stopPropagation();
-		setDragActive(false);
-		if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-			const filesArray = Array.from(e.dataTransfer.files);
-			onFileUpload(filesArray);
-			e.dataTransfer.clearData();
-		}
-	};
+  // On drop, convert FileList to an array and call onFileUpload
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const filesArray = Array.from(e.dataTransfer.files);
+      onFileUpload(filesArray);
+      e.dataTransfer.clearData();
+    }
+  };
 
-	// Handle file selection from the file input (with multiple attribute)
-	const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files.length > 0) {
-			const filesArray = Array.from(e.target.files);
-			onFileUpload(filesArray);
-		}
-	};
+  // Handle file selection from the file input (with multiple attribute)
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const filesArray = Array.from(e.target.files);
+      onFileUpload(filesArray);
+    }
+  };
 
-	const handleAnalyze = () => {
-		// TODO: Backend analysis logic if needed
-	};
+  const handleAnalyze = () => {
+    onAnalyze('in_progress')
+  };
 
-	return (
-		<div className="upload-container">
-			<div className="background-shapes">
-				<div
-					className={`upload-area ${dragActive ? 'active' : ''}`}
-					onDragEnter={handleDrag}
-					onDragLeave={handleDrag}
-					onDragOver={handleDrag}
-					onDrop={handleDrop}
-					onClick={() => fileInputRef.current?.click()}
-				>
-					<input
-						type="file"
-						ref={fileInputRef}
-						onChange={handleFileSelect}
-						accept=".pdf,.png,.jpg,.jpeg"
-						multiple
-						style={{ display: 'none' }}
-					/>
-					<div className="upload-content">
-						<div className="file-icon">📄</div>
-						{uploadedFiles && uploadedFiles.length > 0 ? (
-							<>
-								<div className="upload-text">
-									{uploadedFiles.map((file, index) => (
-										<div key={index}>{file.name}</div>
-									))}
-								</div>
-								<div className="upload-subtext">{FileUploadSuccessMessage}</div>
-							</>
-						) : (
-							<>
-								<div className="upload-text">{DragAndDropMessage}</div>
-								<div className="upload-subtext">{SupportedFileTypesMessage}</div>
-							</>
-						)}
-					</div>
-				</div>
-			</div>
+  return (
+    <div className="upload-container">
+      <div className="background-shapes">
+        <div
+          className={`upload-area ${dragActive ? 'active' : ''}`}
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileSelect}
+            accept=".pdf,.png,.jpg,.jpeg"
+            multiple
+            style={{ display: 'none' }}
+          />
+          <div className="upload-content">
+            <div className="file-icon">📄</div>
+            {uploadedFiles && uploadedFiles.length > 0 ? (
+              <>
+                <div className="upload-text">
+                  {uploadedFiles.map((file, index) => (
+                    <div key={index}>{file.name}</div>
+                  ))}
+                </div>
+                <div className="upload-subtext">{FileUploadSuccessMessage}</div>
+              </>
+            ) : (
+              <>
+                <div className="upload-text">{DragAndDropMessage}</div>
+                <div className="upload-subtext">{SupportedFileTypesMessage}</div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
 
-			<div className="button-container">
-				<button
-					onClick={handleAnalyze}
-					className="action-button analyze-button"
-					disabled={uploadedFiles.length === 0}
-				>
-					Analyze
-				</button>
-			</div>
+      <div className="button-container">
+        <button
+          onClick={handleAnalyze}
+          className="action-button analyze-button"
+          disabled={uploadedFiles.length === 0}
+        >
+          Analyze
+        </button>
+      </div>
 
-			<style>
-				{`
+      <style>
+        {`
           /* CSS styles remain the same as in your original component */
           * {
             margin: 0;
@@ -331,9 +333,9 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ onFileUpload, uploade
             }
           }
         `}
-			</style>
-		</div>
-	);
+      </style>
+    </div>
+  );
 };
 
 export default UploadComponent;

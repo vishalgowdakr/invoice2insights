@@ -1,22 +1,23 @@
-from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from .models import Product, Customer, Supplier, Sale, SaleDetail, Purchase, PurchaseDetail, Expense, FinancialTransaction, Invoice
-from accounting.serializers import MyTokenObtainPairSerializer, RegisterSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+
+
+from accounting.serializers import MyTokenObtainPairSerializer, RegisterSerializer
+from accounting.tasks import run_data_extraction_task
+
 from .serializers import (
-    ProductSerializer, CustomerSerializer, SupplierSerializer, SaleSerializer,
-    SaleDetailSerializer, PurchaseSerializer, PurchaseDetailSerializer,
-    ExpenseSerializer, FinancialTransactionSerializer, UserRegistrationSerializer,
-    InvoiceSerializer
+    UploadSerializer,
 )
-from .utils.utils import StructuredDataExtractor
+from .models import Invoice
 
 
 class UserOwnedModelViewSet(viewsets.ModelViewSet):
@@ -48,62 +49,6 @@ class UserOwnedModelViewSet(viewsets.ModelViewSet):
         instance.delete()
 
 
-class UserRegistrationView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = UserRegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "User registered successfully!"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = Supplier.objects.all()
-    serializer_class = SupplierSerializer
-
-
-class SaleViewSet(UserOwnedModelViewSet):
-    queryset = Sale.objects.all()
-    serializer_class = SaleSerializer
-
-
-class SaleDetailViewSet(viewsets.ModelViewSet):
-    queryset = SaleDetail.objects.all()
-    serializer_class = SaleDetailSerializer
-
-
-class PurchaseViewSet(UserOwnedModelViewSet):
-    queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
-
-
-class PurchaseDetailViewSet(viewsets.ModelViewSet):
-    queryset = PurchaseDetail.objects.all()
-    serializer_class = PurchaseDetailSerializer
-
-
-class ExpenseViewSet(UserOwnedModelViewSet):
-    queryset = Expense.objects.all()
-    serializer_class = ExpenseSerializer
-
-
-class FinancialTransactionViewSet(UserOwnedModelViewSet):
-    queryset = FinancialTransaction.objects.all()
-    serializer_class = FinancialTransactionSerializer
-
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -114,38 +59,6 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 
-class InvoiceView(viewsets.ModelViewSet):
-    queryset = Invoice.objects.all()
-    serializer_class = InvoiceSerializer
-    parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        return Response({
-            'user_id': request.user.id,
-            'username': request.user.username,
-            'is_authenticated': request.user.is_authenticated
-        })
-
-
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from accounting.models import Invoice
-
-from django.forms import ModelForm
-class InvoiceForm(ModelForm):
-    class Meta:
-        model = Invoice
-        fields = ['invoice_file']
-
 # views.py
 from rest_framework import status
 from rest_framework.views import APIView
@@ -155,14 +68,12 @@ from .models import Upload, Invoice
 class BatchUploadAPIView(APIView):
     # If you require authentication you can add permission classes here
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request):
         # Get the file type from the request data.
         print(request.data)
         file_type = request.data.get('file_type')
-        print("*"*100)
-        print(file_type)
         valid_types = dict(Upload.FILE_TYPE_CHOICES).keys()
         if file_type not in valid_types:
             return Response(
@@ -191,5 +102,30 @@ class BatchUploadAPIView(APIView):
             invoices.append(invoice)
 
         # Serialize the created Invoice instances.
-        serializer = InvoiceSerializer(invoices, many=True)
+        serializer = UploadSerializer(upload_instance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class TaskAPIView(APIView):
+    def post(self, request, upload_id):
+        try:
+            upload = Upload.objects.get(id=upload_id)
+            run_data_extraction_task.delay(upload_id)
+        except Upload.DoesNotExist:
+            return Response({'error': 'Upload not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'message': 'Data extraction task started.'}, status=status.HTTP_200_OK)
+
+    def get(self, request, upload_id):
+        try:
+            upload = Upload.objects.get(id=upload_id)
+            invoices = Invoice.objects.filter(upload_id=upload_id)
+            progress = sum(invoice.analyzed for invoice in invoices if invoice.analyzed == True) / len(invoices)
+            task_status = 'Completed' if progress == 1 else 'In Progress'
+        except:
+            return Response({'error': 'Upload not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return JsonResponse({
+            'upload_id': upload_id,
+            'progress': progress,
+            'status': task_status
+        })

@@ -180,3 +180,30 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = 'redis://redis:6379/0' # Use the 'redis' service name from docker-compose
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0' # Optional, for task results
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'  # Or your timezone
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'celery_worker_console': {  # Or however your celery worker handler is named
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG', # Set to DEBUG
+        },
+    },
+    'loggers': {
+        'accounting.tasks': { # Logger for your tasks
+            'handlers': ['celery_worker_console'],
+            'level': 'DEBUG', # Set to DEBUG for your tasks
+            'propagate': False,
+        },
+        # ... other loggers ...
+    },
+}

@@ -112,11 +112,10 @@ class Upload(models.Model):
     file_type = models.CharField(choices=FILE_TYPE_CHOICES, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    status = models.BooleanField(default=False)
 
 class Invoice(models.Model):
     upload = models.ForeignKey(Upload, on_delete=models.SET_NULL, null=True)
     invoice_file = models.FileField(upload_to='invoices/')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    analyzed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
-

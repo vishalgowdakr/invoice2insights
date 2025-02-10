@@ -1,18 +1,35 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadComponent from './_components/Upload/UploadComponent';
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useAuthToken } from '../_utils/auth_utils';
 import { postAuthorized } from '../_utils/api_utils';
+import AnalyzeComponent from './_components/Analyze/Analyze';
+
+export type CallAnalyzeStatus = 'not_called' | 'in_progress' | 'completed'
 
 function App({ isAuthenticated, setIsAuthenticated }: any) {
   // State for multiple uploaded files
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [conversionData, setConversionData] = useState<any>(null);
   const [activeView, setActiveView] = useState('upload');
   // State for file type selection (common for the batch)
   const [fileType, setFileType] = useState<string>('pdf');
   const { withTokenRotation } = useAuthToken({ isAuthenticated, setIsAuthenticated });
+  const [callAnalyze, setCallAnalyze] = useState<CallAnalyzeStatus>('not_called');
+  const [uploadId, setUploadId] = useState<number>(0);
+
+  //useEffects
+  useEffect(() => {
+    if (callAnalyze === 'in_progress') {
+      postAuthorized(`analyze/${uploadId}/`, {}, 'application/json').then(() => {
+        updateCallAnalyze('completed')
+      });
+    }
+  }, [callAnalyze])
+
+  const updateCallAnalyze = (status: CallAnalyzeStatus) => {
+    setCallAnalyze(status);
+  }
 
   // Modified to accept an array of Files
   const handleFileUpload = async (files: File[]) => {
@@ -29,7 +46,7 @@ function App({ isAuthenticated, setIsAuthenticated }: any) {
 
       console.log('Upload response:', response);
       setUploadedFiles(files);
-      setConversionData(JSON.parse(response.json));
+      setUploadId(response.id)
     } catch (error) {
       console.error('Upload failed', error);
     }
@@ -99,23 +116,13 @@ function App({ isAuthenticated, setIsAuthenticated }: any) {
                 </select>
               </div>
               {/* Pass the updated props to support multiple files */}
-              <UploadComponent uploadedFiles={uploadedFiles} onFileUpload={handleFileUpload} />
+              <UploadComponent uploadedFiles={uploadedFiles} onFileUpload={handleFileUpload} onAnalyze={setCallAnalyze} />
+              {
+                callAnalyze !== 'not_called' && (
+                  <AnalyzeComponent />
+                )
+              }
             </div>
-            {conversionData && (
-              <CopyBlock
-                text={JSON.stringify(conversionData, null, 2)}
-                language="json"
-                showLineNumbers={true}
-                theme={dracula}
-                codeBlock
-                customStyle={{
-                  width: '40%',
-                  height: '70%',
-                  marginRight: '1rem',
-                  marginTop: '6rem',
-                }}
-              />
-            )}
           </div>
         </div>
       ) : (

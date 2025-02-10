@@ -50,7 +50,7 @@ class StructuredDataExtractor:
             return json_content.group(1).strip()
         return response.strip()
 
-    def extract(self):
+    def extract(self) -> Purchase:
         llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-flash",
             temperature=0,
