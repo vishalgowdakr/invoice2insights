@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -90,7 +91,7 @@ class BatchUploadAPIView(APIView):
             )
 
         # Create a new Upload instance to represent this batch.
-        upload_instance = Upload.objects.create(file_type=file_type, user=request.user)
+        upload_instance = Upload.objects.create(file_type=file_type, user=request.user, created_at=datetime.now())
 
         # Create an Invoice for each file.
         invoices = []
@@ -98,6 +99,7 @@ class BatchUploadAPIView(APIView):
             invoice = Invoice.objects.create(
                 upload=upload_instance,
                 invoice_file=file_obj,
+                created_at=datetime.now()
             )
             invoices.append(invoice)
 
@@ -108,6 +110,8 @@ class BatchUploadAPIView(APIView):
 class TaskAPIView(APIView):
     def post(self, request, upload_id):
         try:
+            print("********************************************************************************")
+            print(upload_id)
             upload = Upload.objects.get(id=upload_id)
             run_data_extraction_task.delay(upload_id)
         except Upload.DoesNotExist:

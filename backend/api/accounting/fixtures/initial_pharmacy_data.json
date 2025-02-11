@@ -1,0 +1,1115 @@
+[
+  {
+    "model": "accounting.product",
+    "pk": 1,
+    "fields": {
+      "name": "Paracetamol 500mg",
+      "category": "Pain Relief",
+      "manufacturer": "Cipla",
+      "batch_number": "CP500-202412",
+      "expiry_date": "2026-12-31",
+      "cost_price": "5.00",
+      "selling_price": "7.50",
+      "stock_quantity": 500,
+      "reorder_level": 50
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 2,
+    "fields": {
+      "name": "Amoxicillin 250mg",
+      "category": "Antibiotics",
+      "manufacturer": "Sun Pharma",
+      "batch_number": "AMX250-202411",
+      "expiry_date": "2025-11-30",
+      "cost_price": "12.00",
+      "selling_price": "18.00",
+      "stock_quantity": 250,
+      "reorder_level": 30
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 3,
+    "fields": {
+      "name": "Cetirizine 10mg",
+      "category": "Antihistamines",
+      "manufacturer": "Dr. Reddy's",
+      "batch_number": "CTR10-202501",
+      "expiry_date": "2027-01-15",
+      "cost_price": "8.00",
+      "selling_price": "12.00",
+      "stock_quantity": 300,
+      "reorder_level": 40
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 4,
+    "fields": {
+      "name": "Vitamin D3 60000 IU",
+      "category": "Vitamins & Supplements",
+      "manufacturer": "Abbott",
+      "batch_number": "VITD3-60K-202410",
+      "expiry_date": "2026-10-31",
+      "cost_price": "25.00",
+      "selling_price": "35.00",
+      "stock_quantity": 200,
+      "reorder_level": 25
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 5,
+    "fields": {
+      "name": "Ibuprofen 400mg",
+      "category": "Pain Relief",
+      "manufacturer": "Mankind Pharma",
+      "batch_number": "IBU400-202502",
+      "expiry_date": "2027-02-28",
+      "cost_price": "6.50",
+      "selling_price": "9.50",
+      "stock_quantity": 450,
+      "reorder_level": 60
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 6,
+    "fields": {
+      "name": "Ranitidine 150mg",
+      "category": "Gastrointestinal",
+      "manufacturer": "Zydus Cadila",
+      "batch_number": "RNT150-202409",
+      "expiry_date": "2025-09-30",
+      "cost_price": "9.00",
+      "selling_price": "13.50",
+      "stock_quantity": 180,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 7,
+    "fields": {
+      "name": "Aspirin 75mg",
+      "category": "Cardiovascular",
+      "manufacturer": "Bayer",
+      "batch_number": "ASP75-202412",
+      "expiry_date": "2026-12-15",
+      "cost_price": "7.00",
+      "selling_price": "10.50",
+      "stock_quantity": 320,
+      "reorder_level": 45
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 8,
+    "fields": {
+      "name": "Loratadine 10mg",
+      "category": "Antihistamines",
+      "manufacturer": "Glenmark",
+      "batch_number": "LRT10-202501",
+      "expiry_date": "2027-01-31",
+      "cost_price": "7.50",
+      "selling_price": "11.00",
+      "stock_quantity": 280,
+      "reorder_level": 35
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 9,
+    "fields": {
+      "name": "Omeprazole 20mg",
+      "category": "Gastrointestinal",
+      "manufacturer": "Torrent Pharma",
+      "batch_number": "OMP20-202411",
+      "expiry_date": "2026-11-30",
+      "cost_price": "8.50",
+      "selling_price": "12.50",
+      "stock_quantity": 220,
+      "reorder_level": 30
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 10,
+    "fields": {
+      "name": "Multivitamin Tablets",
+      "category": "Vitamins & Supplements",
+      "manufacturer": "Pfizer",
+      "batch_number": "MTV-202502",
+      "expiry_date": "2027-02-15",
+      "cost_price": "30.00",
+      "selling_price": "45.00",
+      "stock_quantity": 150,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 11,
+    "fields": {
+      "name": "Hand Sanitizer 50ml",
+      "category": "Personal Care",
+      "manufacturer": "Himalaya",
+      "batch_number": "HS50-202412",
+      "expiry_date": "2026-12-31",
+      "cost_price": "15.00",
+      "selling_price": "22.50",
+      "stock_quantity": 600,
+      "reorder_level": 100
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 12,
+    "fields": {
+      "name": "Face Mask (Pack of 5)",
+      "category": "Personal Care",
+      "manufacturer": "Dettol",
+      "batch_number": "FM5-202501",
+      "expiry_date": "2027-01-31",
+      "cost_price": "20.00",
+      "selling_price": "30.00",
+      "stock_quantity": 400,
+      "reorder_level": 80
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 13,
+    "fields": {
+      "name": "Glucose Meter",
+      "category": "Health Devices",
+      "manufacturer": "Accu-Chek",
+      "batch_number": "GLUCO-202411",
+      "expiry_date": null,
+      "cost_price": "800.00",
+      "selling_price": "1200.00",
+      "stock_quantity": 50,
+      "reorder_level": 10
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 14,
+    "fields": {
+      "name": "Blood Pressure Monitor",
+      "category": "Health Devices",
+      "manufacturer": "Omron",
+      "batch_number": "BPM-202412",
+      "expiry_date": null,
+      "cost_price": "1200.00",
+      "selling_price": "1800.00",
+      "stock_quantity": 30,
+      "reorder_level": 5
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 15,
+    "fields": {
+      "name": "Ayurvedic Cough Syrup",
+      "category": "Ayurvedic Remedies",
+      "manufacturer": "Dabur",
+      "batch_number": "AYURCOUGH-202410",
+      "expiry_date": "2026-10-31",
+      "cost_price": "45.00",
+      "selling_price": "65.00",
+      "stock_quantity": 120,
+      "reorder_level": 15
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 16,
+    "fields": {
+      "name": "Homeopathic Arnica Cream",
+      "category": "Homeopathic Remedies",
+      "manufacturer": "Schwabe",
+      "batch_number": "ARNICA-202501",
+      "expiry_date": "2027-01-31",
+      "cost_price": "60.00",
+      "selling_price": "90.00",
+      "stock_quantity": 90,
+      "reorder_level": 10
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 17,
+    "fields": {
+      "name": "Baby Diapers (Small)",
+      "category": "Baby Care",
+      "manufacturer": "Pampers",
+      "batch_number": "DIAPER-S-202412",
+      "expiry_date": "2026-12-31",
+      "cost_price": "300.00",
+      "selling_price": "450.00",
+      "stock_quantity": 180,
+      "reorder_level": 30
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 18,
+    "fields": {
+      "name": "Baby Formula (Stage 1)",
+      "category": "Baby Care",
+      "manufacturer": "Nestle",
+      "batch_number": "FORMULA-1-202501",
+      "expiry_date": "2026-01-31",
+      "cost_price": "500.00",
+      "selling_price": "750.00",
+      "stock_quantity": 100,
+      "reorder_level": 20
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 19,
+    "fields": {
+      "name": "Senior Citizen Multivitamin",
+      "category": "Vitamins & Supplements",
+      "manufacturer": "Geriatric Labs",
+      "batch_number": "SENIORVIT-202411",
+      "expiry_date": "2026-11-30",
+      "cost_price": "40.00",
+      "selling_price": "60.00",
+      "stock_quantity": 80,
+      "reorder_level": 15
+    }
+  },
+  {
+    "model": "accounting.product",
+    "pk": 20,
+    "fields": {
+      "name": "Calcium Supplements",
+      "category": "Vitamins & Supplements",
+      "manufacturer": "HealthKart",
+      "batch_number": "CALCIUM-202502",
+      "expiry_date": "2027-02-28",
+      "cost_price": "35.00",
+      "selling_price": "52.50",
+      "stock_quantity": 150,
+      "reorder_level": 25
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 1,
+    "fields": {
+      "name": "Anjali Menon",
+      "phone": "9876543210",
+      "email": "anjali.menon@email.com",
+      "address": "2nd Cross, Indiranagar 1st Stage, Bengaluru",
+      "created_at": "2024-03-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 2,
+    "fields": {
+      "name": "Ramesh Kumar",
+      "phone": "9988776655",
+      "email": "ramesh.kumar@email.com",
+      "address": "10th Main, HAL 2nd Stage, Indiranagar, Bengaluru",
+      "created_at": "2024-05-20T14:30:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 3,
+    "fields": {
+      "name": "Geetha Srinivasan",
+      "phone": "8899001122",
+      "email": "geetha.srinivasan@email.com",
+      "address": "CMH Road, Indiranagar, Bengaluru",
+      "created_at": "2024-07-01T09:15:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 4,
+    "fields": {
+      "name": "Aryan Patel",
+      "phone": "7766554433",
+      "email": "aryan.patel@email.com",
+      "address": "Defence Colony, Indiranagar, Bengaluru",
+      "created_at": "2024-09-10T16:45:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 5,
+    "fields": {
+      "name": "Fatima Khan",
+      "phone": "6655443322",
+      "email": "fatima.khan@email.com",
+      "address": "12th Main, Indiranagar, Bengaluru",
+      "created_at": "2024-11-25T11:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 6,
+    "fields": {
+      "name": "John D'Souza",
+      "phone": "9448123456",
+      "email": "john.dsouza@email.com",
+      "address": "80 Feet Road, Indiranagar, Bengaluru",
+      "created_at": "2024-04-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 7,
+    "fields": {
+      "name": "Shanthi Nair",
+      "phone": "8088123456",
+      "email": "shanthi.nair@email.com",
+      "address": "Double Road, Indiranagar, Bengaluru",
+      "created_at": "2024-06-15T15:30:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 8,
+    "fields": {
+      "name": "Vikram Reddy",
+      "phone": "9742123456",
+      "email": "vikram.reddy@email.com",
+      "address": "Koramangala (near Indiranagar), Bengaluru",
+      "created_at": "2024-08-20T08:45:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 9,
+    "fields": {
+      "name": "Sneha Gupta",
+      "phone": "7899123456",
+      "email": "sneha.gupta@email.com",
+      "address": "Domlur (near Indiranagar), Bengaluru",
+      "created_at": "2024-10-05T14:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.customer",
+    "pk": 10,
+    "fields": {
+      "name": "Charles Brown",
+      "phone": "9900123456",
+      "email": "charles.brown@email.com",
+      "address": "Ulsoor (near Indiranagar), Bengaluru",
+      "created_at": "2024-12-10T17:15:00Z"
+    }
+  },
+  {
+    "model": "accounting.supplier",
+    "pk": 1,
+    "fields": {
+      "name": "MedPlus Distributors",
+      "contact_person": "Rajesh Sharma",
+      "phone": "9000112233",
+      "email": "rajesh.sharma@medplus.com",
+      "address": "Yeshwanthpur Industrial Area, Bengaluru",
+      "created_at": "2023-01-10T11:30:00Z"
+    }
+  },
+  {
+    "model": "accounting.supplier",
+    "pk": 2,
+    "fields": {
+      "name": "Apollo Pharma Supplies",
+      "contact_person": "Priya Verma",
+      "phone": "8000223344",
+      "email": "priya.verma@apollopharma.com",
+      "address": "Peenya Industrial Area, Bengaluru",
+      "created_at": "2023-02-20T15:45:00Z"
+    }
+  },
+  {
+    "model": "accounting.supplier",
+    "pk": 3,
+    "fields": {
+      "name": "Generic Medicine Agency",
+      "contact_person": "Amit Patel",
+      "phone": "7000334455",
+      "email": "amit.patel@genericmeds.com",
+      "address": "Bommasandra Industrial Area, Bengaluru",
+      "created_at": "2023-04-05T09:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.supplier",
+    "pk": 4,
+    "fields": {
+      "name": "Wellness Healthcare Ltd",
+      "contact_person": "Deepika Rao",
+      "phone": "6000445566",
+      "email": "deepika.rao@wellnesshc.com",
+      "address": "Electronic City, Bengaluru",
+      "created_at": "2023-05-15T13:20:00Z"
+    }
+  },
+  {
+    "model": "accounting.supplier",
+    "pk": 5,
+    "fields": {
+      "name": "AyurHome Remedies",
+      "contact_person": "Kumar Swamy",
+      "phone": "9500556677",
+      "email": "kumar.swamy@ayurhome.com",
+      "address": "Jayanagar, Bengaluru",
+      "created_at": "2023-07-01T16:55:00Z"
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 1,
+    "fields": {
+      "sale_date": "2025-02-05T14:00:00Z",
+      "customer": 1,
+      "total_amount": "550.00",
+      "discount": "50.00",
+      "net_amount": "500.00",
+      "payment_mode": "Card",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 2,
+    "fields": {
+      "sale_date": "2025-02-06T09:30:00Z",
+      "customer": 2,
+      "total_amount": "225.00",
+      "discount": "0.00",
+      "net_amount": "225.00",
+      "payment_mode": "UPI",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 3,
+    "fields": {
+      "sale_date": "2025-02-07T16:45:00Z",
+      "customer": 3,
+      "total_amount": "1800.00",
+      "discount": "100.00",
+      "net_amount": "1700.00",
+      "payment_mode": "Cash",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 4,
+    "fields": {
+      "sale_date": "2025-02-08T11:15:00Z",
+      "customer": 4,
+      "total_amount": "75.00",
+      "discount": "0.00",
+      "net_amount": "75.00",
+      "payment_mode": "Cash",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 5,
+    "fields": {
+      "sale_date": "2025-02-09T18:00:00Z",
+      "customer": 5,
+      "total_amount": "35.00",
+      "discount": "0.00",
+      "net_amount": "35.00",
+      "payment_mode": "UPI",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 6,
+    "fields": {
+      "sale_date": "2025-02-05T10:00:00Z",
+      "customer": 6,
+      "total_amount": "150.00",
+      "discount": "10.00",
+      "net_amount": "140.00",
+      "payment_mode": "Card",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 7,
+    "fields": {
+      "sale_date": "2025-02-06T15:30:00Z",
+      "customer": 7,
+      "total_amount": "900.00",
+      "discount": "50.00",
+      "net_amount": "850.00",
+      "payment_mode": "NetBanking",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 8,
+    "fields": {
+      "sale_date": "2025-02-07T11:45:00Z",
+      "customer": 8,
+      "total_amount": "65.00",
+      "discount": "0.00",
+      "net_amount": "65.00",
+      "payment_mode": "UPI",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 9,
+    "fields": {
+      "sale_date": "2025-02-08T09:00:00Z",
+      "customer": 9,
+      "total_amount": "30.00",
+      "discount": "0.00",
+      "net_amount": "30.00",
+      "payment_mode": "Cash",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.sale",
+    "pk": 10,
+    "fields": {
+      "sale_date": "2025-02-09T14:15:00Z",
+      "customer": 10,
+      "total_amount": "1200.00",
+      "discount": "100.00",
+      "net_amount": "1100.00",
+      "payment_mode": "Card",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 1,
+    "fields": {
+      "sale": 1,
+      "product": 1,
+      "quantity": 2,
+      "price": "7.50",
+      "subtotal": "15.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 2,
+    "fields": {
+      "sale": 1,
+      "product": 4,
+      "quantity": 10,
+      "price": "35.00",
+      "subtotal": "350.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 3,
+    "fields": {
+      "sale": 1,
+      "product": 11,
+      "quantity": 5,
+      "price": "22.50",
+      "subtotal": "112.50"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 4,
+    "fields": {
+      "sale": 1,
+      "product": 17,
+      "quantity": 1,
+      "price": "450.00",
+      "subtotal": "450.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 5,
+    "fields": {
+      "sale": 2,
+      "product": 2,
+      "quantity": 3,
+      "price": "18.00",
+      "subtotal": "54.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 6,
+    "fields": {
+      "sale": 2,
+      "product": 8,
+      "quantity": 7,
+      "price": "11.00",
+      "subtotal": "77.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 7,
+    "fields": {
+      "sale": 2,
+      "product": 12,
+      "quantity": 3,
+      "price": "30.00",
+      "subtotal": "90.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 8,
+    "fields": {
+      "sale": 3,
+      "product": 14,
+      "quantity": 1,
+      "price": "1800.00",
+      "subtotal": "1800.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 9,
+    "fields": {
+      "sale": 4,
+      "product": 1,
+      "quantity": 10,
+      "price": "7.50",
+      "subtotal": "75.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 10,
+    "fields": {
+      "sale": 5,
+      "product": 4,
+      "quantity": 1,
+      "price": "35.00",
+      "subtotal": "35.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 11,
+    "fields": {
+      "sale": 6,
+      "product": 11,
+      "quantity": 2,
+      "price": "22.50",
+      "subtotal": "45.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 12,
+    "fields": {
+      "sale": 6,
+      "product": 1,
+      "quantity": 5,
+      "price": "7.50",
+      "subtotal": "37.50"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 13,
+    "fields": {
+      "sale": 6,
+      "product": 2,
+      "quantity": 2,
+      "price": "18.00",
+      "subtotal": "36.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 14,
+    "fields": {
+      "sale": 6,
+      "product": 8,
+      "quantity": 2,
+      "price": "11.00",
+      "subtotal": "22.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 15,
+    "fields": {
+      "sale": 7,
+      "product": 14,
+      "quantity": 0.5,
+      "price": "1800.00",
+      "subtotal": "900.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 16,
+    "fields": {
+      "sale": 8,
+      "product": 15,
+      "quantity": 1,
+      "price": "65.00",
+      "subtotal": "65.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 17,
+    "fields": {
+      "sale": 9,
+      "product": 12,
+      "quantity": 1,
+      "price": "30.00",
+      "subtotal": "30.00"
+    }
+  },
+  {
+    "model": "accounting.saledetail",
+    "pk": 18,
+    "fields": {
+      "sale": 10,
+      "product": 13,
+      "quantity": 1,
+      "price": "1200.00",
+      "subtotal": "1200.00"
+    }
+  },
+  {
+    "model": "accounting.purchase",
+    "pk": 1,
+    "fields": {
+      "purchase_date": "2025-01-15T10:00:00Z",
+      "supplier": 1,
+      "total_cost": "5500.00",
+      "payment_mode": "NetBanking",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.purchase",
+    "pk": 2,
+    "fields": {
+      "purchase_date": "2025-01-20T14:30:00Z",
+      "supplier": 2,
+      "total_cost": "3000.00",
+      "payment_mode": "Card",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.purchase",
+    "pk": 3,
+    "fields": {
+      "purchase_date": "2025-01-25T09:15:00Z",
+      "supplier": 3,
+      "total_cost": "2200.00",
+      "payment_mode": "UPI",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.purchase",
+    "pk": 4,
+    "fields": {
+      "purchase_date": "2025-01-30T16:45:00Z",
+      "supplier": 4,
+      "total_cost": "4800.00",
+      "payment_mode": "Cash",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.purchase",
+    "pk": 5,
+    "fields": {
+      "purchase_date": "2025-02-05T11:00:00Z",
+      "supplier": 5,
+      "total_cost": "1500.00",
+      "payment_mode": "Cash",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 1,
+    "fields": {
+      "purchase": 1,
+      "product": 1,
+      "quantity": 500,
+      "cost_price": "5.00",
+      "subtotal": "2500.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 2,
+    "fields": {
+      "purchase": 1,
+      "product": 2,
+      "quantity": 250,
+      "cost_price": "12.00",
+      "subtotal": "3000.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 3,
+    "fields": {
+      "purchase": 2,
+      "product": 3,
+      "quantity": 300,
+      "cost_price": "8.00",
+      "subtotal": "2400.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 4,
+    "fields": {
+      "purchase": 2,
+      "product": 4,
+      "quantity": 200,
+      "cost_price": "25.00",
+      "subtotal": "5000.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 5,
+    "fields": {
+      "purchase": 3,
+      "product": 5,
+      "quantity": 450,
+      "cost_price": "6.50",
+      "subtotal": "2925.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 6,
+    "fields": {
+      "purchase": 3,
+      "product": 6,
+      "quantity": 180,
+      "cost_price": "9.00",
+      "subtotal": "1620.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 7,
+    "fields": {
+      "purchase": 4,
+      "product": 7,
+      "quantity": 320,
+      "cost_price": "7.00",
+      "subtotal": "2240.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 8,
+    "fields": {
+      "purchase": 4,
+      "product": 8,
+      "quantity": 280,
+      "cost_price": "7.50",
+      "subtotal": "2100.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 9,
+    "fields": {
+      "purchase": 4,
+      "product": 9,
+      "quantity": 220,
+      "cost_price": "8.50",
+      "subtotal": "1870.00"
+    }
+  },
+  {
+    "model": "accounting.purchasedetail",
+    "pk": 10,
+    "fields": {
+      "purchase": 5,
+      "product": 10,
+      "quantity": 150,
+      "cost_price": "30.00",
+      "subtotal": "4500.00"
+    }
+  },
+  {
+    "model": "accounting.expense",
+    "pk": 1,
+    "fields": {
+      "category": "Rent",
+      "amount": "45000.00",
+      "notes": "Monthly rent for Indiranagar store",
+      "expense_date": "2025-02-01T09:00:00Z",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.expense",
+    "pk": 2,
+    "fields": {
+      "category": "Electricity Bill",
+      "amount": "3200.00",
+      "notes": "Electricity bill for January 2025",
+      "expense_date": "2025-02-03T10:30:00Z",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.expense",
+    "pk": 3,
+    "fields": {
+      "category": "Salaries",
+      "amount": "60000.00",
+      "notes": "Staff salaries for January 2025",
+      "expense_date": "2025-02-05T17:00:00Z",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.expense",
+    "pk": 4,
+    "fields": {
+      "category": "Maintenance",
+      "amount": "1500.00",
+      "notes": "Plumbing repair in restroom",
+      "expense_date": "2025-02-08T12:45:00Z",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.expense",
+    "pk": 5,
+    "fields": {
+      "category": "Internet & Phone",
+      "amount": "2500.00",
+      "notes": "Monthly internet and phone bill",
+      "expense_date": "2025-02-10T14:00:00Z",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.financialtransaction",
+    "pk": 1,
+    "fields": {
+      "transaction_date": "2025-02-05T14:00:00Z",
+      "type": "Income",
+      "amount": "500.00",
+      "description": "Sale to Anjali Menon (Invoice #SALE001)",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.financialtransaction",
+    "pk": 2,
+    "fields": {
+      "transaction_date": "2025-02-06T09:30:00Z",
+      "type": "Income",
+      "amount": "225.00",
+      "description": "Sale to Ramesh Kumar (Invoice #SALE002)",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.financialtransaction",
+    "pk": 3,
+    "fields": {
+      "transaction_date": "2025-02-01T09:00:00Z",
+      "type": "Expense",
+      "amount": "45000.00",
+      "description": "Rent for February 2025",
+      "created_by": 67
+    }
+  },
+  {
+    "model": "accounting.financialtransaction",
+    "pk": 4,
+    "fields": {
+      "transaction_date": "2025-02-07T16:45:00Z",
+      "type": "Income",
+      "amount": "1700.00",
+      "description": "Sale to Geetha Srinivasan (Invoice #SALE003)",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.financialtransaction",
+    "pk": 5,
+    "fields": {
+      "transaction_date": "2025-02-03T10:30:00Z",
+      "type": "Expense",
+      "amount": "3200.00",
+      "description": "Electricity Bill - January 2025",
+      "created_by": 68
+    }
+  },
+  {
+    "model": "accounting.upload",
+    "pk": 1,
+    "fields": {
+      "file_type": "pdf",
+      "created_at": "2025-02-01T10:00:00Z",
+      "user": 67,
+      "status": true
+    }
+  },
+  {
+    "model": "accounting.upload",
+    "pk": 2,
+    "fields": {
+      "file_type": "jpg",
+      "created_at": "2025-02-15T15:00:00Z",
+      "user": 68,
+      "status": false
+    }
+  },
+  {
+    "model": "accounting.invoice",
+    "pk": 1,
+    "fields": {
+      "upload": 1,
+      "invoice_file": "invoices/INV_20250201_SUPPLIER1.pdf",
+      "analyzed": true,
+      "created_at": "2025-02-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "accounting.invoice",
+    "pk": 2,
+    "fields": {
+      "upload": 2,
+      "invoice_file": "invoices/EXPENSE_RECEIPT_20250215.jpg",
+      "analyzed": false,
+      "created_at": "2025-02-15T15:00:00Z"
+    }
+  }
+]

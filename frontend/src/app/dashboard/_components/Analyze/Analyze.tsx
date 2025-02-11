@@ -1,30 +1,16 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
-export default function AnalyzeComponent() {
-	const [progress, setProgress] = useState(0)
-	const [isAnalyzing, setIsAnalyzing] = useState(true)
+interface AnalyzeComponentProps {
+	progress: number;
+	isAnalyzing: boolean;
+	setActiveView: React.Dispatch<React.SetStateAction<string>>
+}
 
-	useEffect(() => {
-		if (isAnalyzing) {
-			const timer = setInterval(() => {
-				setProgress((oldProgress) => {
-					const newProgress = oldProgress + 2
-					if (newProgress === 100) {
-						clearInterval(timer)
-						setIsAnalyzing(false)
-					}
-					return Math.min(newProgress, 100)
-				})
-			}, 100)
-
-			return () => clearInterval(timer)
-		}
-	}, [isAnalyzing])
+export default function AnalyzeComponent({ progress, isAnalyzing, setActiveView }: AnalyzeComponentProps) {
 
 	return (
 		<div className="w-full max-w-md p-4 m-auto">
@@ -39,7 +25,7 @@ export default function AnalyzeComponent() {
 					) : (
 						<div className="space-y-4">
 							<h3 className="text-lg font-medium text-center text-green-600">Analysis Complete!</h3>
-							<Button className="w-full" size="lg" onClick={() => console.log("Show insights clicked")}>
+							<Button className="w-full" size="lg" onClick={() => setActiveView('dashboard')}>
 								Show Insights
 							</Button>
 						</div>
@@ -49,4 +35,3 @@ export default function AnalyzeComponent() {
 		</div>
 	)
 }
-

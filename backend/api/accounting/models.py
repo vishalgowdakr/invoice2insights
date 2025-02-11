@@ -19,7 +19,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15, unique=True, blank=True, null=True)
     email = models.EmailField(unique=True, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
 
 
 class Supplier(models.Model):
@@ -28,7 +28,7 @@ class Supplier(models.Model):
     phone = models.CharField(max_length=15, unique=True, blank=True, null=True)
     email = models.EmailField(unique=True, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
 
 
 class Sale(models.Model):
@@ -38,7 +38,7 @@ class Sale(models.Model):
         ('UPI', 'UPI'),
         ('NetBanking', 'NetBanking'),
     ]
-    sale_date = models.DateTimeField(auto_now_add=True)
+    sale_date = models.DateTimeField()
     customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True, blank=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -64,7 +64,7 @@ class Purchase(models.Model):
         ('UPI', 'UPI'),
         ('NetBanking', 'NetBanking'),
     ]
-    purchase_date = models.DateTimeField(auto_now_add=True)
+    purchase_date = models.DateTimeField()
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
     payment_mode = models.CharField(
@@ -84,7 +84,7 @@ class Expense(models.Model):
     category = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True, null=True)
-    expense_date = models.DateTimeField(auto_now_add=True)
+    expense_date = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
 
@@ -93,7 +93,7 @@ class FinancialTransaction(models.Model):
         ('Income', 'Income'),
         ('Expense', 'Expense'),
     ]
-    transaction_date = models.DateTimeField(auto_now_add=True)
+    transaction_date = models.DateTimeField()
     type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
@@ -110,7 +110,7 @@ class Upload(models.Model):
         (PDF, 'PDF'),
     ]
     file_type = models.CharField(choices=FILE_TYPE_CHOICES, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     status = models.BooleanField(default=False)
 
@@ -118,4 +118,4 @@ class Invoice(models.Model):
     upload = models.ForeignKey(Upload, on_delete=models.SET_NULL, null=True)
     invoice_file = models.FileField(upload_to='invoices/')
     analyzed = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()

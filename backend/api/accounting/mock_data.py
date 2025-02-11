@@ -6,17 +6,21 @@ from django.utils import timezone
 fake = Faker()
 
 
-def clear_existing_data():
-    """Clear existing data from all models"""
+def clear_accounting_data():
+    """Clear existing data only from models within the 'accounting' app."""
     from django.apps import apps
+
+    accounting_app_name = 'accounting'
 
     # Get all models from installed apps
     models = apps.get_models()
 
     for model in models:
-        model.objects.all().delete()
+        if model._meta.app_label == accounting_app_name:
+            model.objects.all().delete()
+            print(f"Data cleared from model: {model._meta.model_name} in '{accounting_app_name}' app") # Optional: Print cleared models
 
-    print("All existing data cleared.")
+    print(f"Existing data cleared from all models in the '{accounting_app_name}' app.")
 
 
 def generate_users(num=10):
@@ -37,7 +41,7 @@ def generate_users(num=10):
 
 
 def generate_products(num=50):
-    """Generate mock products"""
+    """Generate mock products with category-based pricing"""
     from .models import Product
 
     categories = ['Electronics', 'Clothing', 'Food', 'Beverages', 'Stationery']
@@ -45,13 +49,31 @@ def generate_products(num=50):
     products = []
 
     for _ in range(num):
-        cost_price = round(random.uniform(10, 500), 2)
-        selling_price = round(cost_price * random.uniform(1.2, 2.0), 2)
+        category = random.choice(categories)
+        manufacturer = random.choice(manufacturers)
+        cost_price = 0
+        selling_price = 0
+
+        if category == 'Electronics':
+            cost_price = round(random.uniform(200, 1500), 2)
+            selling_price = round(cost_price * random.uniform(1.3, 2.5), 2) # Higher markup
+        elif category == 'Clothing':
+            cost_price = round(random.uniform(30, 200), 2)
+            selling_price = round(cost_price * random.uniform(1.5, 3.0), 2) # Higher markup
+        elif category == 'Food':
+            cost_price = round(random.uniform(5, 50), 2)
+            selling_price = round(cost_price * random.uniform(1.2, 2.0), 2)
+        elif category == 'Beverages':
+            cost_price = round(random.uniform(2, 30), 2)
+            selling_price = round(cost_price * random.uniform(1.2, 2.2), 2)
+        elif category == 'Stationery':
+            cost_price = round(random.uniform(1, 20), 2)
+            selling_price = round(cost_price * random.uniform(1.3, 2.5), 2)
 
         product = Product.objects.create(
-            name=fake.word(),
-            category=random.choice(categories),
-            manufacturer=random.choice(manufacturers),
+            name=fake.word().capitalize() + " " + category, # More descriptive name
+            category=category,
+            manufacturer=manufacturer,
             batch_number=fake.bothify(text='BATCH-#####'),
             expiry_date=fake.date_between(start_date='+1y', end_date='+3y'),
             cost_price=cost_price,
@@ -61,7 +83,7 @@ def generate_products(num=50):
         )
         products.append(product)
 
-    print(f"{num} products created.")
+    print(f"{num} products created with category-based pricing.")
     return products
 
 
